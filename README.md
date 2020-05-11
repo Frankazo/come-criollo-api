@@ -6,14 +6,14 @@ App to connect small business with people in third world countries, You as a Use
 ## Setup Steps
 
 1. Fork and clone this repository.
-1. Run ` npm install` to install all dependencies
-1. Use `npm run server` to spin up the server.
+3. Run ` npm install` to install all dependencies
+4. Use `npm run server` to spin up the server.
 
 ## Important Links
 
-- [Client Repo](www.link.com)
+- [Client Repo](https://github.com/Frankazo/come-criollo-client)
 - [Deployed API](https://still-refuge-15449.herokuapp.com/)
-- [Deployed Client](www.link.com)
+- [Deployed Client](https://frankazo.github.io/come-criollo-client/)
 
 ## Planning Story
 
@@ -50,6 +50,8 @@ GET | /reviews/:id
 POST | /reviews
 PATCH | /reviews/:id
 DELETE | /reviews/:id
+
+Full examples in [Review-Route](./Review-README.md) and [Auth-Route](./Auth-README.md)
 
 ### Unsolved Problems
 
