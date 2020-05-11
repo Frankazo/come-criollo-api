@@ -10,7 +10,8 @@ curl "${API}${URL_PATH}/${ID}" \
 --header "Authorization: Bearer ${TOKEN}" \
 --data '{
     "review": {
-      "text": "'"${TEXT}"'"
+      "text": "'"${TEXT}"'",
+      "rating": "'"${RAT}"'"
     }
   }'
 
