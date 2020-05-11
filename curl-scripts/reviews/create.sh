@@ -11,7 +11,8 @@ curl "${API}${URL_PATH}" \
   --data '{
     "review": {
       "text": "'"${TEXT}"'",
-      "title": "'"${TITLE}"'"
+      "title": "'"${TITLE}"'",
+      "rating": "'"${RAT}"'"
     }
   }'
 

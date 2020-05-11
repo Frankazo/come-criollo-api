@@ -54,6 +54,7 @@ Connection: keep-alive
       "_id":"5eb99668a8e7022ffe87b42f",
       "text":"test text 2 review",
       "title":"test title 2 review",
+      "rating": "5"
       "owner":"5eb9853ad6940628c721f99b",
       "createdAt":"2020-05-11T18:16:08.388Z",
       "updatedAt":"2020-05-11T18:16:08.388Z",
@@ -98,6 +99,7 @@ Connection: keep-alive
       "_id":"5eb99668a8e7022ffe87b42f",
       "text":"test text 2 review",
       "title":"test title 2 review",
+      "rating": "5"
       "owner":"5eb9853ad6940628c721f99b",
       "createdAt":"2020-05-11T18:16:08.388Z",
       "updatedAt":"2020-05-11T18:16:08.388Z",
@@ -118,13 +120,14 @@ curl "http://localhost:4741/reviews" \
   --data '{
     "review": {
       "text": "'"${TEXT}"'",
-      "title": "'"${TITLE}"'"
+      "title": "'"${TITLE}"'",
+      "rating": "'"${RAT}"'"
     }
   }'
 ```
 
 ```sh
-TOKEN=aa2cd6b7f4457b9502adaae55e48961c TEXT="Example Text" TITLE="Example Title" sh curl-scripts/reviews/create.sh
+TOKEN=aa2cd6b7f4457b9502adaae55e48961c TEXT="Example Text" TITLE="Example Title" RAT=5 sh curl-scripts/reviews/create.sh
 ```
 
 Response:
@@ -145,6 +148,7 @@ Connection: keep-alive
     "_id":"5eb99668a8e7022ffe87b42f",
     "text":"test text 2 review",
     "title":"test title 2 review",
+    "rating": "5"
     "owner":"5eb9853ad6940628c721f99b",
     "createdAt":"2020-05-11T18:16:08.388Z",
     "updatedAt":"2020-05-11T18:16:08.388Z",
@@ -165,13 +169,14 @@ curl "http://localhost:4741/reviews/:id" \
 --data '{
     "review": {
       "text": "'"${TEXT}"'",
-      "title": "'"${TITLE}"'"
+      "title": "'"${TITLE}"'",
+      "rating": "'"${RAT}"'"
     }
   }'
 ```
 
 ```sh
-TOKEN=aa2cd6b7f4457b9502adaae55e48961c ID=5eb99668a8e7022ffe87b42f TEXT="Example Text" TITLE="Example Title" sh curl-scripts/reviews/update.sh
+TOKEN=aa2cd6b7f4457b9502adaae55e48961c ID=5eb99668a8e7022ffe87b42f TEXT="Example Text" TITLE="Example Title" RAT=5 sh curl-scripts/reviews/update.sh
 ```
 
 Response:
