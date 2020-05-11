@@ -11,8 +11,8 @@ App to connect small business with people in third world countries, You as a Use
 
 ## Important Links
 
-- [Other Repo](www.link.com)
-- [Deployed API](www.link.com)
+- [Client Repo](www.link.com)
+- [Deployed API](https://still-refuge-15449.herokuapp.com/)
 - [Deployed Client](www.link.com)
 
 ## Planning Story
