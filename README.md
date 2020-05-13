@@ -52,6 +52,7 @@ PATCH | /reviews/:id
 DELETE | /reviews/:id
 
 Full examples in [Review-Route](./Review-README.md) and [Auth-Route](./Auth-README.md)
+[Restaurant-Route](./Restaurant-README.md)
 
 ### Unsolved Problems
 

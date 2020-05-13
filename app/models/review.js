@@ -17,9 +17,17 @@ const reviewSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
+  },
+  restaurant: {
+    type: String,
+    ref: 'restaurant',
+    required: true
   }
 }, {
   timestamps: true
 })
 
-module.exports = mongoose.model('Review', reviewSchema)
+module.exports = {
+  Review: mongoose.model('Review', reviewSchema),
+  schema: reviewSchema
+}

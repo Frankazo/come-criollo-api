@@ -6,6 +6,10 @@ URL_PATH="/reviews"
 curl "${API}${URL_PATH}" \
   --include \
   --request GET \
-  --header "Authorization: Bearer ${TOKEN}"
-
+  --header "Authorization: Bearer ${TOKEN}" \
+  --data '{
+    "restaurant": {
+      "id": "'"${RID}"'"
+    }
+  }'
 echo
