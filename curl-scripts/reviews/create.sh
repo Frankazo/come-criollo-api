@@ -12,7 +12,8 @@ curl "${API}${URL_PATH}" \
     "review": {
       "text": "'"${TEXT}"'",
       "title": "'"${TITLE}"'",
-      "rating": "'"${RAT}"'"
+      "rating": "'"${RAT}"'",
+      "restaurant": "'"${RID}"'"
     }
   }'
 

@@ -18,12 +18,16 @@ Request:
 curl "http://localhost:4741/reviews" \
   --include \
   --request GET \
-  --header "Authorization: Bearer ${TOKEN}"
-
+  --header "Authorization: Bearer ${TOKEN}" \
+  --data '{
+    "restaurant": {
+      "id": "'"${RID}"'"
+    }
+  }'
 ```
 
 ```sh
-TOKEN=aa2cd6b7f4457b9502adaae55e48961c sh curl-scripts/reviews/index.sh
+TOKEN=<Token> RID=<restaurant _id> sh curl-scripts/reviews/index.sh
 ```
 
 Response:
@@ -45,6 +49,8 @@ Connection: keep-alive
       "_id":"5eb9926afcd53d2f5bea08d7",
       "text":"test text review",
       "title":"test title review",
+      "rating": "5",
+      "restaurant": "5sgdfgrwqwq1241242",
       "owner":"5eb9853ad6940628c721f99b",
       "createdAt":"2020-05-11T17:59:06.152Z",
       "updatedAt":"2020-05-11T17:59:06.152Z",
@@ -54,7 +60,8 @@ Connection: keep-alive
       "_id":"5eb99668a8e7022ffe87b42f",
       "text":"test text 2 review",
       "title":"test title 2 review",
-      "rating": "5"
+      "rating": "5",
+      "restaurant": "5sgdfgrwqwq1241242",
       "owner":"5eb9853ad6940628c721f99b",
       "createdAt":"2020-05-11T18:16:08.388Z",
       "updatedAt":"2020-05-11T18:16:08.388Z",
@@ -72,12 +79,17 @@ Request:
 curl "http://localhost:4741/reviews/:id" \
   --include \
   --request GET \
-  --header "Authorization: Bearer ${TOKEN}"
+  --header "Authorization: Bearer ${TOKEN}" \
+  --data '{
+    "restaurant": {
+      "id": "'"${RID}"'"
+    }
+  }'
 
 ```
 
 ```sh
-TOKEN=aa2cd6b7f4457b9502adaae55e48961c ID=5eb99668a8e7022ffe87b42f sh curl-scripts/reviews/show.sh
+TOKEN=<Token> RID=<restaurant _id> ID=<Review _id> sh curl-scripts/reviews/show.sh
 ```
 
 Response:
@@ -99,7 +111,8 @@ Connection: keep-alive
       "_id":"5eb99668a8e7022ffe87b42f",
       "text":"test text 2 review",
       "title":"test title 2 review",
-      "rating": "5"
+      "rating": "5",
+      "restaurant": "5sgdfgrwqwq1241242",
       "owner":"5eb9853ad6940628c721f99b",
       "createdAt":"2020-05-11T18:16:08.388Z",
       "updatedAt":"2020-05-11T18:16:08.388Z",
@@ -121,13 +134,14 @@ curl "http://localhost:4741/reviews" \
     "review": {
       "text": "'"${TEXT}"'",
       "title": "'"${TITLE}"'",
-      "rating": "'"${RAT}"'"
+      "rating": "'"${RAT}"'",
+      "restaurant": "'"${RID}"'"
     }
   }'
 ```
 
 ```sh
-TOKEN=aa2cd6b7f4457b9502adaae55e48961c TEXT="Example Text" TITLE="Example Title" RAT=5 sh curl-scripts/reviews/create.sh
+TOKEN=<Token> RID=<restaurant _id> TEXT="Example Text" TITLE="Example Title" RAT=5 sh curl-scripts/reviews/create.sh
 ```
 
 Response:
@@ -148,7 +162,8 @@ Connection: keep-alive
     "_id":"5eb99668a8e7022ffe87b42f",
     "text":"test text 2 review",
     "title":"test title 2 review",
-    "rating": "5"
+    "rating": "5",
+    "restaurant": "5sgdfgrwqwq1241242",
     "owner":"5eb9853ad6940628c721f99b",
     "createdAt":"2020-05-11T18:16:08.388Z",
     "updatedAt":"2020-05-11T18:16:08.388Z",
@@ -165,18 +180,20 @@ curl "http://localhost:4741/reviews/:id" \
   --include \
   --request PATCH \
   --header "Content-Type: application/json" \
---header "Authorization: Bearer ${TOKEN}" \
---data '{
-    "review": {
-      "text": "'"${TEXT}"'",
-      "title": "'"${TITLE}"'",
-      "rating": "'"${RAT}"'"
-    }
-  }'
+  --header "Authorization: Bearer ${TOKEN}" \
+  --data '{
+    "restaurant": {
+      "id":"'"${RID}"'"
+      },
+      "review": {
+        "text": "'"${TEXT}"'",
+        "rating": "'"${RAT}"'"
+      }
+    }'
 ```
 
 ```sh
-TOKEN=aa2cd6b7f4457b9502adaae55e48961c ID=5eb99668a8e7022ffe87b42f TEXT="Example Text" TITLE="Example Title" RAT=5 sh curl-scripts/reviews/update.sh
+TOKEN=<Token> ID=<Review _id> TEXT="Example Text" RAT=5 sh curl-scripts/reviews/update.sh
 ```
 
 Response:
@@ -199,12 +216,17 @@ Request:
 curl "http://localhost:4741/reviews/:id" \
   --include \
   --request DELETE \
-  --header "Authorization: Bearer ${TOKEN}"
+  --header "Authorization: Bearer ${TOKEN}" \
+  --data '{
+    "restaurant": {
+      "id": "'"${RID}"'"
+    }
+  }'
 
 ```
 
 ```sh
-TOKEN=aa2cd6b7f4457b9502adaae55e48961c ID=5eb9926afcd53d2f5bea08d7 sh curl-scripts/reviews/destroy.sh
+TOKEN=<Token> ID=<Review _id> sh curl-scripts/reviews/destroy.sh
 ```
 
 Response:

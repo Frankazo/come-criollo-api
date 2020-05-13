@@ -4,7 +4,7 @@ const express = require('express')
 const passport = require('passport')
 
 // pull in Mongoose model for reviews
-const Review = require('../models/review')
+const Restaurant = require('../models/restaurant')
 
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
@@ -30,12 +30,9 @@ const router = express.Router()
 // INDEX
 // GET /reviews
 router.get('/reviews', requireToken, (req, res, next) => {
-  Review.find()
-    .then(reviews => {
-      // `reviews` will be an array of Mongoose documents
-      // we want to convert each one to a POJO, so we use `.map` to
-      // apply `.toObject` to each one
-      return reviews.map(review => review.toObject())
+  Restaurant.findById(req.body.restaurant.id)
+    .then(parent => {
+      return parent.reviews.map(review => review.toObject())
     })
     // respond with status 200 and JSON of the reviews
     .then(reviews => res.status(200).json({ reviews: reviews }))
@@ -46,8 +43,11 @@ router.get('/reviews', requireToken, (req, res, next) => {
 // SHOW
 // GET /reviews/5a7db6c74d55bc51bdf39793
 router.get('/reviews/:id', requireToken, (req, res, next) => {
-  // req.params.id will be set based on the `:id` in the route
-  Review.findById(req.params.id)
+  Restaurant.findById(req.body.restaurant.id)
+    .then(parent => {
+      // return parent.reviews.find(review => review.id === req.params.id)
+      return parent.reviews.id(req.params.id)
+    })
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "review" JSON
     .then(review => res.status(200).json({ review: review.toObject() }))
@@ -60,15 +60,15 @@ router.get('/reviews/:id', requireToken, (req, res, next) => {
 router.post('/reviews', requireToken, (req, res, next) => {
   // set owner of new review to be current user
   req.body.review.owner = req.user.id
-
-  Review.create(req.body.review)
-    // respond to succesful `create` with status 201 and JSON of new "review"
-    .then(review => {
-      res.status(201).json({ review: review.toObject() })
+  // find restaurant by id in order to add the new review into it
+  Restaurant.findById(req.body.review.restaurant)
+    .then(parent => {
+      parent.reviews.push(req.body.review)
+      return parent.save()
     })
-    // if an error occurs, pass it off to our error handler
-    // the error handler needs the error message and the `res` object so that it
-    // can send an error message back to the client
+    .then(savedParent => {
+      res.status(201).json({ review: req.body.review })
+    })
     .catch(next)
 })
 
@@ -79,17 +79,14 @@ router.patch('/reviews/:id', requireToken, removeBlanks, (req, res, next) => {
   // owner, prevent that by deleting that key/value pair
   delete req.body.review.owner
 
-  Review.findById(req.params.id)
+  Restaurant.findById(req.body.restaurant.id)
     .then(handle404)
-    .then(review => {
-      // pass the `req` object and the Mongoose record to `requireOwnership`
-      // it will throw an error if the current user isn't the owner
+    .then(parent => {
+      const review = parent.reviews.id(req.params.id)
       requireOwnership(req, review)
-
-      // pass the result of Mongoose's `.update` to the next `.then`
-      return review.updateOne(req.body.review)
+      review.set(req.body.review)
+      return parent.save()
     })
-    // if that succeeded, return 204 and no JSON
     .then(() => res.sendStatus(204))
     // if an error occurs, pass it to the handler
     .catch(next)
@@ -98,13 +95,14 @@ router.patch('/reviews/:id', requireToken, removeBlanks, (req, res, next) => {
 // DESTROY
 // DELETE /reviews/5a7db6c74d55bc51bdf39793
 router.delete('/reviews/:id', requireToken, (req, res, next) => {
-  Review.findById(req.params.id)
+  Restaurant.findById(req.body.restaurant.id)
     .then(handle404)
-    .then(review => {
-      // throw an error if current user doesn't own `review`
+    .then(parent => {
+      const review = parent.reviews.id(req.params.id)
       requireOwnership(req, review)
-      // delete the review ONLY IF the above didn't throw
-      review.deleteOne()
+
+      review.remove()
+      return parent.save()
     })
     // send back 204 and no content if the deletion succeeded
     .then(() => res.sendStatus(204))
