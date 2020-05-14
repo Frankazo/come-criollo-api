@@ -4,26 +4,22 @@
 
 Verb         |	URI Pattern
 ------------ | -------------
-GET | /reviews
-GET | /reviews/:id
-POST | /reviews
-PATCH | /reviews/:id
-DELETE | /reviews/:id
+GET | /reviews/:rid
+GET | /reviews/:rid/:id
+POST | /reviews/:rid
+PATCH | /reviews/:rid/:id
+DELETE | /reviews/:rid/:id
 
 #### GET /reviews
 
 Request:
 
 ```sh
-curl "http://localhost:4741/reviews" \
+curl "http://localhost:4741/reviews/${RID}" \
   --include \
   --request GET \
   --header "Authorization: Bearer ${TOKEN}" \
-  --data '{
-    "restaurant": {
-      "id": "'"${RID}"'"
-    }
-  }'
+
 ```
 
 ```sh
@@ -76,15 +72,10 @@ Connection: keep-alive
 Request:
 
 ```sh
-curl "http://localhost:4741/reviews/:id" \
+curl "http://localhost:4741/reviews/${RID}/${ID}" \
   --include \
   --request GET \
   --header "Authorization: Bearer ${TOKEN}" \
-  --data '{
-    "restaurant": {
-      "id": "'"${RID}"'"
-    }
-  }'
 
 ```
 
@@ -125,7 +116,7 @@ Connection: keep-alive
 Request:
 
 ```sh
-curl "http://localhost:4741/reviews" \
+curl "http://localhost:4741/reviews/${RID}" \
   --include \
   --request POST \
   --header "Content-Type: application/json" \
@@ -134,8 +125,7 @@ curl "http://localhost:4741/reviews" \
     "review": {
       "text": "'"${TEXT}"'",
       "title": "'"${TITLE}"'",
-      "rating": "'"${RAT}"'",
-      "restaurant": "'"${RID}"'"
+      "rating": "'"${RAT}"'"
     }
   }'
 ```
@@ -176,15 +166,12 @@ Connection: keep-alive
 Request:
 
 ```sh
-curl "http://localhost:4741/reviews/:id" \
+curl "http://localhost:4741/reviews/${RID}/${ID}" \
   --include \
   --request PATCH \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer ${TOKEN}" \
   --data '{
-    "restaurant": {
-      "id":"'"${RID}"'"
-      },
       "review": {
         "text": "'"${TEXT}"'",
         "rating": "'"${RAT}"'"
@@ -193,7 +180,7 @@ curl "http://localhost:4741/reviews/:id" \
 ```
 
 ```sh
-TOKEN=<Token> ID=<Review _id> TEXT="Example Text" RAT=5 sh curl-scripts/reviews/update.sh
+TOKEN=<Token> RID=<restaurant _id> ID=<Review _id> TEXT="Example Text" RAT=5 sh curl-scripts/reviews/update.sh
 ```
 
 Response:
@@ -213,20 +200,15 @@ Connection: keep-alive
 Request:
 
 ```sh
-curl "http://localhost:4741/reviews/:id" \
+curl "http://localhost:4741/reviews/${RID}/${ID}" \
   --include \
   --request DELETE \
   --header "Authorization: Bearer ${TOKEN}" \
-  --data '{
-    "restaurant": {
-      "id": "'"${RID}"'"
-    }
-  }'
 
 ```
 
 ```sh
-TOKEN=<Token> ID=<Review _id> sh curl-scripts/reviews/destroy.sh
+TOKEN=<Token> RID=<restaurant _id> ID=<Review _id> sh curl-scripts/reviews/destroy.sh
 ```
 
 Response:

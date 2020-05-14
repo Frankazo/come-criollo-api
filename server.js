@@ -61,11 +61,6 @@ app.use(express.urlencoded({ extended: true }))
 // log each request as it comes in for debugging
 app.use(requestLogger)
 
-// register route files
-app.use(reviewRoutes)
-app.use(userRoutes)
-app.use(restaurantRoutes)
-
 // register error handling middleware
 // note that this comes after the route middlewares, because it needs to be
 // passed any error messages from them
@@ -75,6 +70,11 @@ app.use(errorHandler)
 app.listen(port, () => {
   console.log('listening on port ' + port)
 })
+
+// register route files
+app.use(reviewRoutes)
+app.use(userRoutes)
+app.use(restaurantRoutes)
 
 // needed for testing
 module.exports = app
