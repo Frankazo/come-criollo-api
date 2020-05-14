@@ -29,8 +29,10 @@ const router = express.Router()
 
 // INDEX
 // GET /reviews
-router.get('/reviews', requireToken, (req, res, next) => {
-  Restaurant.findById(req.body.restaurant.id)
+// rid is the restaurant id
+router.get('/reviews/:rid', requireToken, (req, res, next) => {
+  Restaurant.findById(req.params.rid)
+    .then(handle404)
     .then(parent => {
       return parent.reviews.map(review => review.toObject())
     })
@@ -42,8 +44,8 @@ router.get('/reviews', requireToken, (req, res, next) => {
 
 // SHOW
 // GET /reviews/5a7db6c74d55bc51bdf39793
-router.get('/reviews/:id', requireToken, (req, res, next) => {
-  Restaurant.findById(req.body.restaurant.id)
+router.get('/reviews/:rid/:id', requireToken, (req, res, next) => {
+  Restaurant.findById(req.params.rid)
     .then(parent => {
       // return parent.reviews.find(review => review.id === req.params.id)
       return parent.reviews.id(req.params.id)
@@ -57,11 +59,11 @@ router.get('/reviews/:id', requireToken, (req, res, next) => {
 
 // CREATE
 // POST /reviews
-router.post('/reviews', requireToken, (req, res, next) => {
+router.post('/reviews/:rid', requireToken, (req, res, next) => {
   // set owner of new review to be current user
   req.body.review.owner = req.user.id
   // find restaurant by id in order to add the new review into it
-  Restaurant.findById(req.body.review.restaurant)
+  Restaurant.findById(req.params.rid)
     .then(parent => {
       parent.reviews.push(req.body.review)
       return parent.save()
@@ -74,12 +76,12 @@ router.post('/reviews', requireToken, (req, res, next) => {
 
 // UPDATE
 // PATCH /reviews/5a7db6c74d55bc51bdf39793
-router.patch('/reviews/:id', requireToken, removeBlanks, (req, res, next) => {
+router.patch('/reviews/:rid/:id', requireToken, removeBlanks, (req, res, next) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
   delete req.body.review.owner
 
-  Restaurant.findById(req.body.restaurant.id)
+  Restaurant.findById(req.params.rid)
     .then(handle404)
     .then(parent => {
       const review = parent.reviews.id(req.params.id)
@@ -94,8 +96,8 @@ router.patch('/reviews/:id', requireToken, removeBlanks, (req, res, next) => {
 
 // DESTROY
 // DELETE /reviews/5a7db6c74d55bc51bdf39793
-router.delete('/reviews/:id', requireToken, (req, res, next) => {
-  Restaurant.findById(req.body.restaurant.id)
+router.delete('/reviews/:rid/:id', requireToken, (req, res, next) => {
+  Restaurant.findById(req.params.rid)
     .then(handle404)
     .then(parent => {
       const review = parent.reviews.id(req.params.id)
