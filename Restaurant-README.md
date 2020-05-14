@@ -50,6 +50,7 @@ Connection: keep-alive
             "website": "frankazo.github.io",
             "phone": 23223234,
             "rating": 5,
+            "imageUrl": "Example",
             "owner": "5eb9853ad6940628c721f99b",
             "reviews": [
                 {
@@ -110,6 +111,7 @@ Connection: keep-alive
         "website": "frankazo.github.io",
         "phone": 23223234,
         "rating": 5,
+        "imageUrl": "Example",
         "owner": "5eb9853ad6940628c721f99b",
         "reviews": [
             {
@@ -148,13 +150,14 @@ curl "http://localhost:4741/restaurant" \
       "location": "'"${L}"'",
       "website": "'"${W}"'",
       "phone": "'"${P}"'",
-      "rating": "'"${R}"'"
+      "rating": "'"${R}"'",
+      "imageUrl": "'"${I}"'"
     }
   }'
 ```
 
 ```sh
-TOKEN=<Token> ON="Example" RN="Example" D="Example" E="Example" L="Example" W="Example" P=123123123 R=5 sh curl-scripts/restaurant/create.sh
+TOKEN=<Token> ON="Example" RN="Example" D="Example" E="Example" L="Example" W="Example" P=123123123 R=5 I="Example" sh curl-scripts/restaurant/create.sh
 ```
 
 Response:
@@ -181,6 +184,7 @@ Connection: keep-alive
         "website": "Example",
         "phone": 123123123,
         "rating": 5,
+        "imageUrl": "Example",
         "owner": "5eb9853ad6940628c721f99b",
         "reviews": [],
         "createdAt": "2020-05-13T21:08:17.787Z",

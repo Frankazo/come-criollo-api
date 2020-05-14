@@ -28,8 +28,7 @@ const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router()
 
 // INDEX
-// GET /reviews
-// rid is the restaurant id
+// GET /reviews/restaurantID
 router.get('/reviews/:rid', requireToken, (req, res, next) => {
   Restaurant.findById(req.params.rid)
     .then(handle404)
@@ -43,7 +42,7 @@ router.get('/reviews/:rid', requireToken, (req, res, next) => {
 })
 
 // SHOW
-// GET /reviews/5a7db6c74d55bc51bdf39793
+// GET /reviews/restaurantID/5a7db6c74d55bc51bdf39793
 router.get('/reviews/:rid/:id', requireToken, (req, res, next) => {
   Restaurant.findById(req.params.rid)
     .then(parent => {
@@ -58,7 +57,7 @@ router.get('/reviews/:rid/:id', requireToken, (req, res, next) => {
 })
 
 // CREATE
-// POST /reviews
+// POST /reviews/restaurantID
 router.post('/reviews/:rid', requireToken, (req, res, next) => {
   // set owner of new review to be current user
   req.body.review.owner = req.user.id
@@ -75,7 +74,7 @@ router.post('/reviews/:rid', requireToken, (req, res, next) => {
 })
 
 // UPDATE
-// PATCH /reviews/5a7db6c74d55bc51bdf39793
+// PATCH /reviews/restaurantID/5a7db6c74d55bc51bdf39793
 router.patch('/reviews/:rid/:id', requireToken, removeBlanks, (req, res, next) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
@@ -95,7 +94,7 @@ router.patch('/reviews/:rid/:id', requireToken, removeBlanks, (req, res, next) =
 })
 
 // DESTROY
-// DELETE /reviews/5a7db6c74d55bc51bdf39793
+// DELETE /reviews/restaurantID/5a7db6c74d55bc51bdf39793
 router.delete('/reviews/:rid/:id', requireToken, (req, res, next) => {
   Restaurant.findById(req.params.rid)
     .then(handle404)
